@@ -13,78 +13,139 @@ final class Router {
     // MARK: - 싱글톤 VS 필요한 곳에서 선언
     private init() {}
     
-    private var _path: [AnyRoutable] = []
+    private var _root = AnyRoutable(Root.root)
+    private var _pushablePath: [AnyRoutable] = []
+    @ObservationIgnored private var _presentablePath: [AnyRoutable] = []
 }
 
 extension Router {
     public func push(to routeType: any Routable) {
-        _path.append(AnyRoutable(routeType))
+        _pushablePath.append(AnyRoutable(routeType))
     }
     
     public func push(to routeTypes: [any Routable]) {
-        _path.append(contentsOf: routeTypes.map { AnyRoutable($0) })
+        _pushablePath.append(contentsOf: routeTypes.map { AnyRoutable($0) })
     }
     
     public func pop() {
-        _path.removeLast()
+        _pushablePath.removeLast()
     }
     
     public func popToRoot() {
-        _path = []
+        _pushablePath = []
     }
     
     public func popToRoot(of routeType: RouteType) {
-        guard let lastIndex = _path.firstIndex(where: { $0.type == routeType })
+        guard let lastIndex = _pushablePath.firstIndex(where: { $0.type == routeType })
         else { return }
         
-        _path.removeLast(_path.count - (lastIndex + 1))
+        _pushablePath.removeLast(_pushablePath.count - (lastIndex + 1))
     }
     
     public func endRoute(of routeType: RouteType) {
-        guard let lastIndex = _path.firstIndex(where: { $0.type == routeType })
+        guard let lastIndex = _pushablePath.firstIndex(where: { $0.type == routeType })
         else { return }
         
-        _path.removeLast(_path.count - lastIndex)
+        _pushablePath.removeLast(_pushablePath.count - lastIndex)
     }
 }
 
 extension Router {
-    // MARK: - Singleton 패턴을 이용할 경우
-    @ViewBuilder
-    static func Stack<Root: View>(_ root: @escaping () -> Root) -> some View {
-        RouterStack(
-            path: Bindable(Router.shared)._path,
-            content: root
+    public func sheet(
+        to routeType: any Routable,
+        detents: Set<PresentationDetent> = [.large],
+        indicatorVisibility: Visibility = .hidden,
+        onDismiss: (() -> Void)? = nil
+    ) {
+        let routable = AnyRoutable(
+            routeType,
+            style: .sheet(detents, indicatorVisibility),
+            onDismiss: { [weak self] in
+                self?._presentablePath.removeLast()
+                onDismiss?()
+            }
         )
+        
+        if _pushablePath.isEmpty && _presentablePath.isEmpty {
+            _root.sheetItem = routable
+        } else if _presentablePath.isEmpty {
+            _pushablePath.last?.sheetItem = routable
+        } else {
+            _presentablePath.last?.sheetItem = routable
+        }
+        _presentablePath.append(routable)
     }
     
-    // MARK: - Router를 직접 선언할 경우
+    public func fullScreenCover(
+        to routeType: any Routable,
+        onDismiss: (() -> Void)? = nil
+    ) {
+        let routable = AnyRoutable(
+            routeType,
+            style: .cover,
+            onDismiss: { [weak self] in
+                self?._presentablePath.removeLast()
+                onDismiss?()
+            }
+        )
+        
+        if _pushablePath.isEmpty && _presentablePath.isEmpty {
+            _root.fullCoverItem = routable
+        } else if _presentablePath.isEmpty {
+            _pushablePath.last?.fullCoverItem = routable
+        } else {
+            _presentablePath.last?.fullCoverItem = routable
+        }
+        
+        _presentablePath.append(routable)
+    }
+    
+    public func dismiss() {
+        if _presentablePath.count > 1 {
+            let count = _presentablePath.count
+            _presentablePath[count - 2].sheetItem = nil
+            _presentablePath[count - 2].fullCoverItem = nil
+        } else if _pushablePath.isEmpty {
+            _root.sheetItem = nil
+            _root.fullCoverItem = nil
+        } else {
+            _pushablePath.last?.sheetItem = nil
+            _pushablePath.last?.fullCoverItem = nil
+        }
+    }
+}
+
+extension Router {
     @ViewBuilder
     public func Stack<Root: View>(_ root: @escaping () -> Root) -> some View {
         RouterStack(
-            path: Bindable(self)._path,
+            router: self,
             content: root
         )
     }
     
     struct RouterStack<Content>: View where Content: View {
-        @Binding private var path: [AnyRoutable]
+        @Bindable var router: Router
         private let content: () -> Content
         
         init(
-            path: Binding<[AnyRoutable]>,
+            router: Router,
             @ViewBuilder content: @escaping () -> Content
         ) {
-            self._path = path
+            self.router = router
             self.content = content
         }
 
         var body: some View {
-            NavigationStack(path: $path) {
-                content()
-                    .navigationDestination(for: AnyRoutable.self) { route in
+            NavigationStack(path: $router._pushablePath) {
+                AnyRoutableView(route: Bindable(router._root)) {
+                    content()
+                }
+                .navigationDestination(for: AnyRoutable.self) { route in
+                    AnyRoutableView(route: Bindable(route)) {
                         route.NavigatingView()
                     }
+                }
             }
         }
     }
@@ -92,8 +153,8 @@ extension Router {
 
 extension Router {
     public var description: String {
-        _path.isEmpty ?
+        _pushablePath.isEmpty ?
         "Root" :
-        "Root -> " + _path.map { $0.description }.joined(separator: " -> ")
+        "Root -> " + _pushablePath.map { $0.description }.joined(separator: " -> ")
     }
 }

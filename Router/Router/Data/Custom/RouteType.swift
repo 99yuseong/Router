@@ -8,6 +8,8 @@
 import Foundation
 
 enum RouteType {
+    case appRoot
+    
     case common
     case login
 }

@@ -27,7 +27,7 @@ struct PathBox: View {
 
 struct ContentView: View {
     var body: some View {
-        Router.Stack {
+        Router.shared.Stack {
             VStack {
                 PathBox(description: Router.shared.description)
                 
@@ -40,6 +40,13 @@ struct ContentView: View {
                 
                 Button("LoginFlow") {
                     Router.shared.push(to: LoginRoute.root)
+                }
+                .buttonStyle(BorderedButtonStyle())
+                
+                Button("Sheet") {
+                    Router.shared.sheet(to: LoginRoute.sheet) {
+                        print(11)
+                    }
                 }
                 .buttonStyle(BorderedButtonStyle())
             }
@@ -62,6 +69,11 @@ struct CommonRootView: View {
             
             Button("toCommon1") {
                 Router.shared.push(to: CommonRoute.common1)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Sheet") {
+                Router.shared.sheet(to: LoginRoute.sheet)
             }
             .buttonStyle(BorderedButtonStyle())
         }
@@ -189,6 +201,32 @@ struct LoginView3: View {
             
             Button("popToLoginRoot") {
                 Router.shared.popToRoot(of: .login)
+            }
+            .buttonStyle(BorderedButtonStyle())
+        }
+        .padding(.bottom, 300)
+    }
+}
+
+struct LoginSheet: View {
+    var body: some View {
+        VStack {
+            PathBox(description: Router.shared.description)
+            
+            Spacer()
+            
+            Button("Sheet") {
+                Router.shared.sheet(to: LoginRoute.sheet)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("FullCover") {
+                Router.shared.fullScreenCover(to: LoginRoute.sheet)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Dismiss") {
+                Router.shared.dismiss()
             }
             .buttonStyle(BorderedButtonStyle())
         }

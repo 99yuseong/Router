@@ -7,27 +7,33 @@
 
 import SwiftUI
 
-struct AnyRoutable: Routable, Identifiable {
-    private let _type: RouteType
-    private let _root: any Routable
-    private let _description: String
-    private let _NavigatingView: () -> any View
+@Observable
+class AnyRoutable: Routable, Identifiable {
+    var sheetItem: AnyRoutable?
+    var fullCoverItem: AnyRoutable?
     
-    init<T: Routable>(_ wrapped: T) {
-        id = UUID()
-        _type = wrapped.type
-        _root = wrapped.root
-        _description = wrapped.description
-        _NavigatingView = wrapped.NavigatingView
+    @ObservationIgnored internal let id: UUID
+    @ObservationIgnored let type: RouteType
+    @ObservationIgnored let style: RouteStyle
+    @ObservationIgnored let description: String
+    @ObservationIgnored var onDismiss: (() -> Void)?
+    @ObservationIgnored private let _NavigatingView: () -> any View
+    
+    @ViewBuilder func NavigatingView() -> AnyView {
+        AnyView(_NavigatingView())
     }
     
-    internal let id: UUID
-    var type: RouteType { _type }
-    var root: any Routable { _root }
-    var description: String { _description }
-
-    @ViewBuilder func NavigatingView() -> some View {
-        AnyView(_NavigatingView())
+    public init<T: Routable>(
+        _ wrapped: T,
+        style: RouteStyle = .push,
+        onDismiss: (() -> Void)? = nil
+    ) {
+        self.id = UUID()
+        self.type = wrapped.type
+        self.style = style
+        self.description = wrapped.description
+        self._NavigatingView = wrapped.NavigatingView
+        self.onDismiss = onDismiss
     }
 }
 

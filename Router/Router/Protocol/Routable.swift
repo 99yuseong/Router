@@ -11,9 +11,7 @@ protocol Routable: Hashable, CustomStringConvertible {
     associatedtype V: View
     
     var type: RouteType { get }
-    var root: any Routable { get }
     var description: String { get }
     
     func NavigatingView() -> V
 }
-
