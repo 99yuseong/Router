@@ -21,6 +21,10 @@ extension Router {
         _path.append(AnyRoutable(routeType))
     }
     
+    public func push(to routeTypes: [any Routable]) {
+        _path.append(contentsOf: routeTypes.map { AnyRoutable($0) })
+    }
+    
     public func pop() {
         _path.removeLast()
     }
