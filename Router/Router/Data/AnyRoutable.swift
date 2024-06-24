@@ -35,6 +35,11 @@ class AnyRoutable: Routable, Identifiable {
         self._NavigatingView = wrapped.NavigatingView
         self.onDismiss = onDismiss
     }
+    
+    public func clearItem() {
+        sheetItem = nil
+        fullCoverItem = nil
+    }
 }
 
 extension AnyRoutable {

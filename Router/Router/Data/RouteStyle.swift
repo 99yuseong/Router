@@ -16,4 +16,15 @@ public enum RouteStyle {
     )
     
     case cover
+    
+    var description: String {
+        switch self {
+        case .push:
+            "push"
+        case .sheet:
+            "sheet"
+        case .cover:
+            "cover"
+        }
+    }
 }
