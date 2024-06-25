@@ -33,25 +33,23 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                Button("CommonFlow") {
+                Button("Push Common Root") {
                     Router.shared.push(to: CommonRoute.root)
                 }
                 .buttonStyle(BorderedButtonStyle())
                 
-                Button("LoginFlow") {
+                Button("Push Login Root") {
                     Router.shared.push(to: LoginRoute.root)
                 }
                 .buttonStyle(BorderedButtonStyle())
                 
-                Button("Sheet") {
-                    Router.shared.sheet(to: LoginRoute.sheet) {
-                        print(11)
-                    }
+                Button("Present Sheet") {
+                    Router.shared.sheet(to: LoginRoute.loginSheet)
                 }
                 .buttonStyle(BorderedButtonStyle())
             }
-            .navigationTitle("Router")
             .padding(.bottom, 300)
+            .navigationTitle("Router")
         }
     }
 }
@@ -67,17 +65,29 @@ struct CommonRootView: View {
             
             Spacer()
             
-            Button("toCommon1") {
+            Button("Push Common1") {
                 Router.shared.push(to: CommonRoute.common1)
             }
             .buttonStyle(BorderedButtonStyle())
             
-            Button("Sheet") {
-                Router.shared.sheet(to: LoginRoute.sheet)
+            Button("Pop All Common") {
+                Router.shared.endRoute(of: .common)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Pop to Root") {
+                Router.shared.popToRoot()
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Present Sheet") {
+                Router.shared.sheet(to: LoginRoute.loginSheet)
             }
             .buttonStyle(BorderedButtonStyle())
         }
         .padding(.bottom, 300)
+        .navigationTitle(Router.shared.currentDescription)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -88,12 +98,39 @@ struct CommonView1: View {
             
             Spacer()
             
-            Button("toCommon2") {
+            Button("Push Common2") {
                 Router.shared.push(to: CommonRoute.common2)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Pop All Common") {
+                Router.shared.endRoute(of: .common)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Pop to Common Root") {
+                Router.shared.popToRoot(of: .common)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Pop to Root") {
+                Router.shared.popToRoot()
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Present Sheet") {
+                Router.shared.sheet(to: LoginRoute.loginSheet)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Present Full Cover") {
+                Router.shared.fullScreenCover(to: LoginRoute.loginSheet)
             }
             .buttonStyle(BorderedButtonStyle())
         }
         .padding(.bottom, 300)
+        .navigationTitle(Router.shared.currentDescription)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -104,12 +141,39 @@ struct CommonView2: View {
             
             Spacer()
             
-            Button("toCommon2") {
+            Button("Push Common3") {
                 Router.shared.push(to: CommonRoute.common3)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Pop All Common") {
+                Router.shared.endRoute(of: .common)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Pop to Common Root") {
+                Router.shared.popToRoot(of: .common)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Pop to Root") {
+                Router.shared.popToRoot()
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Present Sheet") {
+                Router.shared.sheet(to: LoginRoute.loginSheet)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Present Full Cover") {
+                Router.shared.fullScreenCover(to: LoginRoute.loginSheet)
             }
             .buttonStyle(BorderedButtonStyle())
         }
         .padding(.bottom, 300)
+        .navigationTitle(Router.shared.currentDescription)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -120,22 +184,39 @@ struct CommonView3: View {
             
             Spacer()
             
-            Button("showLoginFlow") {
+            Button("Push Login Root") {
                 Router.shared.push(to: LoginRoute.root)
             }
             .buttonStyle(BorderedButtonStyle())
             
-            Button("endFlow") {
+            Button("Pop All Common") {
                 Router.shared.endRoute(of: .common)
             }
             .buttonStyle(BorderedButtonStyle())
             
-            Button("popToCommonRoot") {
+            Button("Pop to Common Root") {
                 Router.shared.popToRoot(of: .common)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Pop to Root") {
+                Router.shared.popToRoot()
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Present Sheet") {
+                Router.shared.sheet(to: LoginRoute.loginSheet)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Present Full Cover") {
+                Router.shared.fullScreenCover(to: LoginRoute.loginSheet)
             }
             .buttonStyle(BorderedButtonStyle())
         }
         .padding(.bottom, 300)
+        .navigationTitle(Router.shared.currentDescription)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -146,12 +227,35 @@ struct LoginRootView: View {
             
             Spacer()
             
-            Button("toLogin1") {
+            Button("Push Login1") {
                 Router.shared.push(to: LoginRoute.login1)
             }
             .buttonStyle(BorderedButtonStyle())
+            
+            Button("Pop All Login") {
+                Router.shared.endRoute(of: .login)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Pop to Root") {
+                Router.shared.popToRoot()
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Present Sheet") {
+                Router.shared.sheet(to: LoginRoute.loginSheet)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Present Full Cover") {
+                Router.shared.fullScreenCover(to: LoginRoute.loginSheet)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
         }
         .padding(.bottom, 300)
+        .navigationTitle(Router.shared.currentDescription)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -162,12 +266,39 @@ struct LoginView1: View {
             
             Spacer()
             
-            Button("toLogin2") {
+            Button("Push Login2") {
                 Router.shared.push(to: LoginRoute.login2)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Pop All Login") {
+                Router.shared.endRoute(of: .login)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Pop to Login Root") {
+                Router.shared.popToRoot(of: .login)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Pop to Root") {
+                Router.shared.popToRoot()
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Present Sheet") {
+                Router.shared.sheet(to: LoginRoute.loginSheet)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Present Full Cover") {
+                Router.shared.fullScreenCover(to: LoginRoute.loginSheet)
             }
             .buttonStyle(BorderedButtonStyle())
         }
         .padding(.bottom, 300)
+        .navigationTitle(Router.shared.currentDescription)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -178,12 +309,39 @@ struct LoginView2: View {
             
             Spacer()
             
-            Button("toLogin3") {
+            Button("Push Login3") {
                 Router.shared.push(to: LoginRoute.login3)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Pop All Login") {
+                Router.shared.endRoute(of: .login)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Pop to Login Root") {
+                Router.shared.popToRoot(of: .login)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Pop to Root") {
+                Router.shared.popToRoot()
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Present Sheet") {
+                Router.shared.sheet(to: LoginRoute.loginSheet)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Present Full Cover") {
+                Router.shared.fullScreenCover(to: LoginRoute.loginSheet)
             }
             .buttonStyle(BorderedButtonStyle())
         }
         .padding(.bottom, 300)
+        .navigationTitle(Router.shared.currentDescription)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -194,34 +352,55 @@ struct LoginView3: View {
             
             Spacer()
             
-            Button("endFlow") {
+            Button("Pop All Login") {
                 Router.shared.endRoute(of: .login)
             }
             .buttonStyle(BorderedButtonStyle())
             
-            Button("popToLoginRoot") {
+            Button("Pop to Login Root") {
                 Router.shared.popToRoot(of: .login)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Pop to Root") {
+                Router.shared.popToRoot()
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Present Sheet") {
+                Router.shared.sheet(to: LoginRoute.loginSheet)
+            }
+            .buttonStyle(BorderedButtonStyle())
+            
+            Button("Present Full Cover") {
+                Router.shared.fullScreenCover(to: LoginRoute.loginSheet)
             }
             .buttonStyle(BorderedButtonStyle())
         }
         .padding(.bottom, 300)
+        .navigationTitle(Router.shared.currentDescription)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 struct LoginSheet: View {
     var body: some View {
         VStack {
+            Text(Router.shared.currentDescription)
+                .bold()
+                .padding()
+            
             PathBox(description: Router.shared.description)
             
             Spacer()
             
-            Button("Sheet") {
-                Router.shared.sheet(to: LoginRoute.sheet)
+            Button("Present Sheet") {
+                Router.shared.sheet(to: LoginRoute.loginSheet)
             }
             .buttonStyle(BorderedButtonStyle())
             
-            Button("FullCover") {
-                Router.shared.fullScreenCover(to: LoginRoute.sheet)
+            Button("Present Full Cover") {
+                Router.shared.fullScreenCover(to: LoginRoute.loginSheet)
             }
             .buttonStyle(BorderedButtonStyle())
             

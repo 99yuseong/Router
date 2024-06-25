@@ -12,7 +12,7 @@ enum LoginRoute {
     case login1
     case login2
     case login3
-    case sheet
+    case loginSheet
     
     @ViewBuilder
     internal func NavigatingView() -> some View {
@@ -25,7 +25,7 @@ enum LoginRoute {
             LoginView2()
         case .login3:
             LoginView3()
-        case .sheet:
+        case .loginSheet:
             LoginSheet()
         }
     }
@@ -45,8 +45,8 @@ extension LoginRoute: Routable {
             "login2"
         case .login3:
             "login3"
-        case .sheet:
-            "sheet"
+        case .loginSheet:
+            "loginSheet"
         }
     }
 }
