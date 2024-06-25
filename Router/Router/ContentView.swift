@@ -29,7 +29,7 @@ struct ContentView: View {
     var body: some View {
         Router.shared.Stack {
             VStack {
-                PathBox(description: Router.shared.description)
+                PathBox(description: Router.shared.stackDescription)
                 
                 Spacer()
                 
@@ -61,7 +61,7 @@ struct ContentView: View {
 struct CommonRootView: View {
     var body: some View {
         VStack {
-            PathBox(description: Router.shared.description)
+            PathBox(description: Router.shared.stackDescription)
             
             Spacer()
             
@@ -86,7 +86,7 @@ struct CommonRootView: View {
             .buttonStyle(BorderedButtonStyle())
         }
         .padding(.bottom, 300)
-        .navigationTitle(Router.shared.currentDescription)
+        .navigationTitle(Router.shared.curRouteDescription)
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -94,7 +94,7 @@ struct CommonRootView: View {
 struct CommonView1: View {
     var body: some View {
         VStack {
-            PathBox(description: Router.shared.description)
+            PathBox(description: Router.shared.stackDescription)
             
             Spacer()
             
@@ -129,7 +129,7 @@ struct CommonView1: View {
             .buttonStyle(BorderedButtonStyle())
         }
         .padding(.bottom, 300)
-        .navigationTitle(Router.shared.currentDescription)
+        .navigationTitle(Router.shared.curRouteDescription)
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -137,7 +137,7 @@ struct CommonView1: View {
 struct CommonView2: View {
     var body: some View {
         VStack {
-            PathBox(description: Router.shared.description)
+            PathBox(description: Router.shared.stackDescription)
             
             Spacer()
             
@@ -172,7 +172,7 @@ struct CommonView2: View {
             .buttonStyle(BorderedButtonStyle())
         }
         .padding(.bottom, 300)
-        .navigationTitle(Router.shared.currentDescription)
+        .navigationTitle(Router.shared.curRouteDescription)
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -180,7 +180,7 @@ struct CommonView2: View {
 struct CommonView3: View {
     var body: some View {
         VStack {
-            PathBox(description: Router.shared.description)
+            PathBox(description: Router.shared.stackDescription)
             
             Spacer()
             
@@ -215,7 +215,7 @@ struct CommonView3: View {
             .buttonStyle(BorderedButtonStyle())
         }
         .padding(.bottom, 300)
-        .navigationTitle(Router.shared.currentDescription)
+        .navigationTitle(Router.shared.curRouteDescription)
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -223,7 +223,7 @@ struct CommonView3: View {
 struct LoginRootView: View {
     var body: some View {
         VStack {
-            PathBox(description: Router.shared.description)
+            PathBox(description: Router.shared.stackDescription)
             
             Spacer()
             
@@ -254,7 +254,7 @@ struct LoginRootView: View {
             
         }
         .padding(.bottom, 300)
-        .navigationTitle(Router.shared.currentDescription)
+        .navigationTitle(Router.shared.curRouteDescription)
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -262,7 +262,7 @@ struct LoginRootView: View {
 struct LoginView1: View {
     var body: some View {
         VStack {
-            PathBox(description: Router.shared.description)
+            PathBox(description: Router.shared.stackDescription)
             
             Spacer()
             
@@ -297,7 +297,7 @@ struct LoginView1: View {
             .buttonStyle(BorderedButtonStyle())
         }
         .padding(.bottom, 300)
-        .navigationTitle(Router.shared.currentDescription)
+        .navigationTitle(Router.shared.curRouteDescription)
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -305,7 +305,7 @@ struct LoginView1: View {
 struct LoginView2: View {
     var body: some View {
         VStack {
-            PathBox(description: Router.shared.description)
+            PathBox(description: Router.shared.stackDescription)
             
             Spacer()
             
@@ -340,7 +340,7 @@ struct LoginView2: View {
             .buttonStyle(BorderedButtonStyle())
         }
         .padding(.bottom, 300)
-        .navigationTitle(Router.shared.currentDescription)
+        .navigationTitle(Router.shared.curRouteDescription)
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -348,7 +348,7 @@ struct LoginView2: View {
 struct LoginView3: View {
     var body: some View {
         VStack {
-            PathBox(description: Router.shared.description)
+            PathBox(description: Router.shared.stackDescription)
             
             Spacer()
             
@@ -378,7 +378,7 @@ struct LoginView3: View {
             .buttonStyle(BorderedButtonStyle())
         }
         .padding(.bottom, 300)
-        .navigationTitle(Router.shared.currentDescription)
+        .navigationTitle(Router.shared.curRouteDescription)
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -386,11 +386,11 @@ struct LoginView3: View {
 struct LoginSheet: View {
     var body: some View {
         VStack {
-            Text(Router.shared.currentDescription)
+            Text(Router.shared.curRouteDescription)
                 .bold()
                 .padding()
             
-            PathBox(description: Router.shared.description)
+            PathBox(description: Router.shared.stackDescription)
             
             Spacer()
             

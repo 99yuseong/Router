@@ -7,11 +7,13 @@
 
 import SwiftUI
 
-enum CommonRoute {
+enum CommonRoute: Routable {
     case root
     case common1
     case common2
     case common3
+    
+    var type: RouteType { .common }
     
     @ViewBuilder
     internal func NavigatingView() -> some View {
@@ -26,11 +28,6 @@ enum CommonRoute {
             CommonView3()
         }
     }
-}
-
-extension CommonRoute: Routable {
-    var type: RouteType { .common }
-    var root: any Routable { CommonRoute.root }
     
     var description: String {
         switch self {

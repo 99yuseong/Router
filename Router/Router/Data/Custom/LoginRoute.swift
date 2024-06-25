@@ -7,12 +7,14 @@
 
 import SwiftUI
 
-enum LoginRoute {
+enum LoginRoute: Routable {
     case root
     case login1
     case login2
     case login3
     case loginSheet
+    
+    var type: RouteType { .login }
     
     @ViewBuilder
     internal func NavigatingView() -> some View {
@@ -29,11 +31,6 @@ enum LoginRoute {
             LoginSheet()
         }
     }
-}
-
-extension LoginRoute: Routable {
-    var type: RouteType { .login }
-    var root: any Routable { LoginRoute.root }
     
     var description: String {
         switch self {

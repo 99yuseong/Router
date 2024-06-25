@@ -14,24 +14,20 @@ final class Router {
     private init() {
         let root = AnyRoutable(Root.root)
         self._root = root
-        self._current = root
+        self._curRoute = root
     }
     
     private var _root: AnyRoutable
     private var _pushStack: [AnyRoutable] = []
-    @ObservationIgnored private var _current: AnyRoutable
+    @ObservationIgnored private var _curRoute: AnyRoutable
     @ObservationIgnored private var _presentStack: [AnyRoutable] = []
-    
-    var currentDescription: String {
-        _current.description
-    }
 }
 
 extension Router {
     public func push(to routeType: any Routable) {
         let route = AnyRoutable(routeType)
         _pushStack.append(route)
-        _current = route
+        _curRoute = route
     }
     
     public func push(to routeTypes: [any Routable]) {
@@ -39,17 +35,17 @@ extension Router {
         
         let routes = routeTypes.map { AnyRoutable($0) }
         _pushStack.append(contentsOf: routes)
-        _current = routes.last ?? _root
+        _curRoute = routes.last ?? _root
     }
     
     public func pop() {
         _pushStack.removeLast()
-        _current = _pushStack.last ?? _root
+        _curRoute = _pushStack.last ?? _root
     }
     
     public func popToRoot() {
         _pushStack = []
-        _current = _root
+        _curRoute = _root
     }
     
     public func popToRoot(of routeType: RouteType) {
@@ -57,7 +53,7 @@ extension Router {
         else { return }
         
         _pushStack.removeLast(_pushStack.count - (lastIndex + 1))
-        _current = _pushStack.last ?? _root
+        _curRoute = _pushStack.last ?? _root
     }
     
     public func endRoute(of routeType: RouteType) {
@@ -65,7 +61,7 @@ extension Router {
         else { return }
         
         _pushStack.removeLast(_pushStack.count - lastIndex)
-        _current = _pushStack.last ?? _root
+        _curRoute = _pushStack.last ?? _root
     }
 }
 
@@ -87,7 +83,7 @@ extension Router {
         
         presentableRoute?.sheetItem = routable
         _presentStack.append(routable)
-        _current = _presentStack.last ?? _root
+        _curRoute = _presentStack.last ?? _root
     }
     
     public func fullScreenCover(
@@ -105,28 +101,28 @@ extension Router {
         
         presentableRoute?.fullCoverItem = routable
         _presentStack.append(routable)
-        _current = _presentStack.last ?? _root
+        _curRoute = _presentStack.last ?? _root
     }
     
     public func dismiss() {
         if _presentStack.count > 1 {
             let count = _presentStack.count
             _presentStack[count - 2].clearItem()
-            _current = _presentStack[count - 2]
+            _curRoute = _presentStack[count - 2]
             
         } else if _pushStack.isEmpty {
             _root.clearItem()
-            _current = _root
+            _curRoute = _root
             
         } else {
             _pushStack.last?.clearItem()
-            _current = _pushStack.last ?? _root
+            _curRoute = _pushStack.last ?? _root
         }
     }
     
     private var presentableRoute: AnyRoutable? {
         if _pushStack.isEmpty && _presentStack.isEmpty {
-            _current
+            _root
         } else if _presentStack.isEmpty {
             _pushStack.last
         } else {
@@ -172,27 +168,31 @@ extension Router {
 }
 
 extension Router {
-    public var description: String {
+    public var curRouteDescription: String {
+        _curRoute.description
+    }
+    
+    public var stackDescription: String {
         var components = ["Root"]
         
-        if !pushDescription.isEmpty {
-            components.append(pushDescription)
+        if !pushStackDescription.isEmpty {
+            components.append(pushStackDescription)
         }
         
-        if !presentDescription.isEmpty {
-            components.append(presentDescription)
+        if !presentStackDescription.isEmpty {
+            components.append(presentStackDescription)
         }
                 
         return components.joined(separator: " -> ")
     }
     
-    private var pushDescription: String {
+    private var pushStackDescription: String {
         _pushStack
             .map { $0.description }
             .joined(separator: " -> ")
     }
     
-    private var presentDescription: String {
+    private var presentStackDescription: String {
         _presentStack
             .map { "(\($0.style.description)) \($0.description)" }
             .joined(separator: " -> ")
