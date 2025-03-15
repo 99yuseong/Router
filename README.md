@@ -9,6 +9,12 @@
 
 <br/>
 
+## 발표 링크
+[**[Youtube]**](https://www.youtube.com/watch?v=V-i57BnmOFI) 
+스유미식회 발표
+
+[**[Notion]**](https://kiwi-river-cf1.notion.site/Router-b1b5aded3e004f28ab48c5c587aebf7f?pvs=4) 관련 내용 정리 노션
+
 ## 장점
 1. 화면 전환 로직에 사용되는 `Enum`을 분리된 파일에서 관리
 
